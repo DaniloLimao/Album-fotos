@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amor Eterno</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #000000; /* Cinza claro */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .card {
+            background-color: #3d3d3d; /* Fundo cinza médio */
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            margin-top: 200px;
+            margin-bottom: 200px;
+            padding: 30px;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        #titulo {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #cfcfcf; /* Cinza escuro */
+            cursor: pointer;
+        }
+
+        .photo-album {
+            position: relative;
+            width: 220px;
+            height: 220px;
+            margin: 0 auto 20px;
+            display: flex;
+        }
+
+        .photo-album img {
+            width: 100%;
+            height: 150%;
+            object-fit: cover;
+            border-radius: 10%;
+            border: 4px solid #cfcfcf; /* Cinza médio */
+        }
+
+        .arrow {
+            position: absolute;
+            top: 70%;
+            transform: translateY(-50%);
+            background-color: #cfcfcf00; /* Cinza claro */
+            color: #cfcfcf; /* Cinza escuro */
+            border: none;
+            border-radius: 5px;
+            width: 20px;
+            height: 50px;
+            font-size: 500%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .arrow.left {
+            left: -40px;
+        }
+
+        .arrow.right {
+            right: -40px;
+        }
+
+        #counter {
+            font-size: 0.9rem;
+            background-color: #cfcfcf; /* Cinza claro */
+            color: #000000; /* Cinza médio */
+            padding: 10px 20px;
+            border-radius: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        #texto{
+            margin-top: 120px;
+            font-size: 7px;
+            color: #cfcfcf;
+        }
+
+        #versiculo {
+            background-color: #cfcfcf; /* Cinza médio */
+            color: #000000; /* Cinza escuro */
+            border-radius: 15px;
+            padding-top: 1px;
+            padding-bottom: 5px;
+            padding-left: 20px;
+            padding-right: 20px;
+            font-size: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-top: 5px;
+        }
+
+        .heart {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-image: url('coração.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            top: -50px;
+            animation: fall 4s linear infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(100vh) scale(0.8);
+                opacity: 0;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1 id="titulo">Thaila e Danilo</h1>
+        <div class="photo-album">
+            <button class="arrow left" onclick="prevPhoto()">&#8249;</button>
+            <img src="IMG-20250118-WA0061.jpg" alt="Foto de vocês" id="photo">
+            <button class="arrow right" onclick="nextPhoto()">&#8250;</button>
+        </div>
+        <div id="texto"><h1>juntos a:</h1></div>
+        <div id="counter"></div>
+        <div id="versiculo">
+            <p>1 Coríntios 13:4-7</p>
+            <p>⁴"O amor é paciente, o amor é bondoso. 
+            Não inveja, não se vangloria, não se orgulha."
+            ⁵"Não maltrata, não procura seus interesses, 
+            não se ira facilmente, não guarda rancor."
+            ⁶"O amor não se alegra com a injustiça, 
+            mas se alegra com a verdade." ⁷"Tudo sofre, 
+            tudo crê, tudo espera, tudo suporta."</p>
+        </div>
+    </div>
+
+    <script>
+        const photos = ["IMG-20250118-WA0062.jpg",
+                        "IMG-20250118-WA0063.jpg", 
+                        "IMG-20250118-WA0064.jpg",
+                        "IMG-20250118-WA0065.jpg",
+                        "IMG-20250118-WA0066.jpg",
+                        "IMG-20250118-WA0067.jpg",
+                        "IMG-20250118-WA0068.jpg",
+                        "IMG-20250118-WA0069.jpg",
+                        "IMG-20250118-WA0070.jpg"];
+        let currentPhotoIndex = 0;
+
+        const startDate = new Date("2024-10-20T21:00:00");
+
+        function updatePhoto() {
+            const photoElement = document.getElementById("photo");
+            photoElement.src = photos[currentPhotoIndex];
+        }
+
+        function nextPhoto() {
+            currentPhotoIndex = (currentPhotoIndex + 1) % photos.length;
+            updatePhoto();
+        }
+
+        function prevPhoto() {
+            currentPhotoIndex = (currentPhotoIndex - 1 + photos.length) % photos.length;
+            updatePhoto();
+        }
+
+        function getDaysInMonth(year, month) {
+            return new Date(year, month + 1, 0).getDate();
+        }
+
+        function updateCounter() {
+            const now = new Date();
+
+            let years = now.getFullYear() - startDate.getFullYear();
+            let months = now.getMonth() - startDate.getMonth();
+            let days = now.getDate() - startDate.getDate();
+            let hours = now.getHours() - startDate.getHours();
+            let minutes = now.getMinutes() - startDate.getMinutes();
+            let seconds = now.getSeconds() - startDate.getSeconds();
+
+            if (seconds < 0) {
+                seconds += 60;
+                minutes--;
+            }
+            if (minutes < 0) {
+                minutes += 60;
+                hours--;
+            }
+            if (hours < 0) {
+                hours += 24;
+                days--;
+            }
+            if (days < 0) {
+                months--;
+                days += getDaysInMonth(now.getFullYear(), now.getMonth() - 1);
+            }
+            if (months < 0) {
+                years--;
+                months += 12;
+            }
+
+            let counterText = [];
+            if (years > 0) counterText.push(`${years} anos`);
+            if (months > 0 || years > 0) counterText.push(`${months} meses`);
+            if (days > 0 || months > 0 || years > 0) counterText.push(`${days} dias`);
+            counterText.push(`${hours} horas`, `${minutes} minutos`, `${seconds} segundos`);
+
+            document.getElementById("counter").innerText = counterText.join(", ").replace(/, ([^,]*)$/, " e $1");
+        }
+
+        setInterval(updateCounter, 1000);
+        const titulo = document.getElementById("titulo");
+
+        titulo.addEventListener("click", () => {
+            for (let i = 0; i < 15; i++) {
+                const heart = document.createElement("div");
+                heart.classList.add("heart");
+                heart.style.left = Math.random() * 100 + "vw"; // Posição horizontal aleatória
+                heart.style.animationDuration = Math.random() * 2 + 3 + "s"; // Duração aleatória
+                heart.style.opacity = Math.random() * 0.5 + 0.5; // Opacidade aleatória
+                heart.style.transform = `scale(${Math.random() * 0.5 + 0.75})`; // Tamanho variável
+                document.body.appendChild(heart);
+
+                // Remover coração após a animação
+                heart.addEventListener("animationend", () => {
+                    heart.remove();
+                });
+            }
+        });
+    </script>
+</body>
+</html>
